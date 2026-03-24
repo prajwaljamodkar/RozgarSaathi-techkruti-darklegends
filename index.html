@@ -1,0 +1,2292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RozgarSaathi — रोज़गार साथी</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Teko:wght@400;500;600;700&family=Baloo+2:wght@400;500;600;700;800&family=Mukta:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ─── RESET & BASE ─────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Mukta', sans-serif;
+  background: #0A0E14;
+  color: #E8DDD0;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* ─── CUSTOM CURSOR ─────────────────────────────────── */
+.cursor {
+  width: 12px; height: 12px;
+  background: #FF6B1A;
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%,-50%);
+  transition: transform .1s ease, width .2s, height .2s, background .2s;
+  mix-blend-mode: screen;
+}
+.cursor-ring {
+  width: 36px; height: 36px;
+  border: 1.5px solid rgba(255,107,26,.4);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%,-50%);
+  transition: transform .15s ease, width .3s, height .3s;
+}
+body:has(a:hover) .cursor, body:has(button:hover) .cursor { width: 20px; height: 20px; background: #FF9F4A; }
+body:has(a:hover) .cursor-ring, body:has(button:hover) .cursor-ring { width: 56px; height: 56px; }
+
+/* ─── CSS VARIABLES ─────────────────────────────────── */
+:root {
+  --orange: #FF6B1A;
+  --orange-dim: #CC5514;
+  --amber: #FFB347;
+  --green: #1DB87A;
+  --green-dim: #157A52;
+  --ink: #0A0E14;
+  --ink-mid: #131A24;
+  --ink-light: #1E2B3A;
+  --sand: #E8DDD0;
+  --sand-dim: #B8AA98;
+  --muted: #5A6A7A;
+  --border: rgba(255,107,26,.15);
+  --border-dim: rgba(255,255,255,.06);
+  --gold: #F0C040;
+  --wa: #25D366;
+}
+
+/* ─── NOISE TEXTURE OVERLAY ──────────────────────────── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+/* ─── NAV ─────────────────────────────────────────────── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 64px;
+  background: rgba(10,14,20,.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-dim);
+}
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+.nav-logo-mark {
+  width: 38px; height: 38px;
+  background: var(--orange);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+.nav-logo-text {
+  font-family: 'Teko', sans-serif;
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--sand);
+  letter-spacing: .5px;
+  line-height: 1;
+}
+.nav-logo-text em {
+  color: var(--orange);
+  font-style: normal;
+}
+.nav-tagline {
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  line-height: 1;
+  margin-top: 2px;
+}
+.nav-links {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.nav-btn {
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: 'Mukta', sans-serif;
+  cursor: pointer;
+  border: none;
+  transition: all .2s;
+  letter-spacing: .3px;
+}
+.nav-btn-ghost {
+  background: transparent;
+  color: var(--sand-dim);
+  border: 1px solid var(--border-dim);
+}
+.nav-btn-ghost:hover {
+  background: var(--ink-light);
+  color: var(--sand);
+  border-color: var(--border);
+}
+.nav-btn-orange {
+  background: var(--orange);
+  color: white;
+}
+.nav-btn-orange:hover {
+  background: #FF8844;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(255,107,26,.35);
+}
+.nav-btn-green {
+  background: var(--green);
+  color: white;
+}
+.nav-btn-green:hover {
+  background: #22D48A;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(29,184,122,.35);
+}
+
+/* ─── HERO ────────────────────────────────────────────── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  padding: 100px 40px 60px;
+}
+.hero-bg-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,107,26,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,107,26,.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+.hero-glow-1 {
+  position: absolute;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,107,26,.15) 0%, transparent 70%);
+  top: -100px; left: -100px;
+  animation: glowPulse 6s ease-in-out infinite alternate;
+}
+.hero-glow-2 {
+  position: absolute;
+  width: 400px; height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(29,184,122,.12) 0%, transparent 70%);
+  bottom: -50px; right: 200px;
+  animation: glowPulse 8s ease-in-out infinite alternate-reverse;
+}
+@keyframes glowPulse {
+  from { transform: scale(1); opacity: .7; }
+  to   { transform: scale(1.15); opacity: 1; }
+}
+.hero-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 60px;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border: 1px solid var(--border);
+  border-radius: 30px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 24px;
+  background: rgba(255,107,26,.06);
+  animation: fadeSlideIn .8s ease forwards;
+}
+.live-dot {
+  width: 6px; height: 6px;
+  background: var(--orange);
+  border-radius: 50%;
+  animation: livePulse 1.5s infinite;
+}
+@keyframes livePulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255,107,26,.6); }
+  50% { box-shadow: 0 0 0 5px rgba(255,107,26,0); }
+}
+.hero-h1 {
+  font-family: 'Teko', sans-serif;
+  font-size: clamp(62px, 8vw, 96px);
+  font-weight: 700;
+  line-height: .95;
+  letter-spacing: -1px;
+  color: var(--sand);
+  margin-bottom: 8px;
+  animation: fadeSlideIn .8s .15s ease both;
+}
+.hero-h1 span { color: var(--orange); display: block; }
+.hero-h1-devanagari {
+  font-family: 'Baloo 2', cursive;
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 700;
+  color: var(--amber);
+  display: block;
+  letter-spacing: 0;
+  margin-bottom: 20px;
+  animation: fadeSlideIn .8s .25s ease both;
+}
+.hero-desc {
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--sand-dim);
+  max-width: 480px;
+  margin-bottom: 36px;
+  animation: fadeSlideIn .8s .35s ease both;
+}
+.hero-desc strong { color: var(--sand); }
+.hero-ctas {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  animation: fadeSlideIn .8s .45s ease both;
+}
+.cta-primary {
+  padding: 14px 32px;
+  background: var(--orange);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: 'Mukta', sans-serif;
+  cursor: pointer;
+  transition: all .22s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  letter-spacing: .2px;
+}
+.cta-primary:hover {
+  background: #FF8844;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(255,107,26,.4);
+}
+.cta-secondary {
+  padding: 14px 32px;
+  background: transparent;
+  color: var(--green);
+  border: 1.5px solid var(--green-dim);
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: 'Mukta', sans-serif;
+  cursor: pointer;
+  transition: all .22s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.cta-secondary:hover {
+  background: rgba(29,184,122,.1);
+  border-color: var(--green);
+  transform: translateY(-2px);
+}
+.hero-stats {
+  display: flex;
+  gap: 32px;
+  margin-top: 48px;
+  animation: fadeSlideIn .8s .55s ease both;
+}
+.hero-stat-val {
+  font-family: 'Teko', sans-serif;
+  font-size: 40px;
+  font-weight: 700;
+  color: var(--orange);
+  line-height: 1;
+}
+.hero-stat-label {
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  margin-top: 2px;
+}
+
+/* ─── HERO CARD CLUSTER ──────────────────────────────── */
+.hero-cards {
+  position: relative;
+  animation: fadeSlideIn .8s .3s ease both;
+}
+.hc {
+  background: var(--ink-mid);
+  border: 1px solid var(--border-dim);
+  border-radius: 16px;
+  padding: 16px 18px;
+  position: absolute;
+  transition: all .3s;
+}
+.hc:hover { border-color: var(--border); transform: translateY(-3px); }
+.hc-main {
+  position: relative;
+  width: 320px;
+  margin: 0 auto;
+  z-index: 3;
+}
+.hc-1 {
+  width: 260px;
+  top: -20px; right: -20px;
+  z-index: 2;
+  opacity: .8;
+  transform: rotate(3deg);
+}
+.hc-2 {
+  width: 240px;
+  bottom: -30px; left: -30px;
+  z-index: 2;
+  opacity: .75;
+  transform: rotate(-4deg);
+}
+.hc-worker-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.hc-avatar {
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+  position: relative;
+}
+.hc-verified {
+  position: absolute;
+  bottom: -3px; right: -3px;
+  width: 16px; height: 16px;
+  background: var(--green);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  color: white;
+  border: 2px solid var(--ink-mid);
+}
+.hc-name {
+  font-family: 'Baloo 2', cursive;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--sand);
+  line-height: 1.2;
+}
+.hc-meta {
+  font-size: 12px;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.hc-avail {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  flex-shrink: 0;
+}
+.hc-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 12px;
+}
+.hc-tag {
+  padding: 3px 9px;
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .3px;
+  text-transform: uppercase;
+}
+.hc-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.hc-rate {
+  font-family: 'Teko', sans-serif;
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--green);
+  line-height: 1;
+}
+.hc-rate span { font-size: 13px; color: var(--muted); font-family: 'Mukta', sans-serif; }
+.hc-wa {
+  padding: 7px 14px;
+  background: var(--wa);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Mukta', sans-serif;
+}
+.hc-wa:hover { background: #1ebe5a; }
+.hc-rating {
+  font-size: 12px;
+  color: var(--gold);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── SECTION SHARED ─────────────────────────────────── */
+section {
+  padding: 100px 40px;
+  position: relative;
+}
+.section-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.section-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-label::before {
+  content: '';
+  display: block;
+  width: 30px; height: 2px;
+  background: var(--orange);
+  flex-shrink: 0;
+}
+.section-title {
+  font-family: 'Teko', sans-serif;
+  font-size: clamp(42px, 5vw, 62px);
+  font-weight: 700;
+  color: var(--sand);
+  line-height: 1;
+  margin-bottom: 16px;
+  letter-spacing: -.5px;
+}
+.section-sub {
+  font-size: 16px;
+  color: var(--sand-dim);
+  max-width: 520px;
+  line-height: 1.7;
+}
+
+/* ─── FILTER BAR ──────────────────────────────────────── */
+.filter-section {
+  background: var(--ink-mid);
+  padding: 0;
+  border-bottom: 1px solid var(--border-dim);
+  position: sticky;
+  top: 64px;
+  z-index: 400;
+}
+.filter-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  height: 60px;
+}
+.filter-label-text {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  flex-shrink: 0;
+}
+.filter-chips {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  flex: 1;
+  scrollbar-width: none;
+}
+.filter-chips::-webkit-scrollbar { display: none; }
+.chip {
+  padding: 6px 16px;
+  border-radius: 30px;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: 'Mukta', sans-serif;
+  cursor: pointer;
+  white-space: nowrap;
+  border: 1px solid var(--border-dim);
+  background: transparent;
+  color: var(--muted);
+  transition: all .18s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.chip:hover { border-color: var(--border); color: var(--sand-dim); }
+.chip.active {
+  background: rgba(255,107,26,.12);
+  border-color: var(--orange);
+  color: var(--orange);
+}
+.filter-loc {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border: 1px solid var(--border-dim);
+  border-radius: 8px;
+  font-size: 12px;
+  color: var(--sand-dim);
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: border-color .2s;
+}
+.filter-loc:hover { border-color: var(--border); }
+
+/* ─── MAIN APP LAYOUT ────────────────────────────────── */
+.app-section {
+  padding: 60px 40px;
+  background: var(--ink);
+}
+.app-layout {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 32px;
+}
+
+/* ─── JOB CARDS ──────────────────────────────────────── */
+.jobs-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.jobs-title {
+  font-family: 'Teko', sans-serif;
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--sand);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.count-badge {
+  padding: 3px 12px;
+  background: rgba(255,107,26,.12);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--orange);
+  font-family: 'Mukta', sans-serif;
+}
+
+.job-card {
+  background: var(--ink-mid);
+  border: 1px solid var(--border-dim);
+  border-radius: 16px;
+  padding: 22px 24px;
+  margin-bottom: 14px;
+  transition: all .22s;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+.job-card::after {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--orange);
+  border-radius: 3px 0 0 3px;
+}
+.job-card.urgent::after { background: #FF3D3D; }
+.job-card.contract::after { background: var(--green); }
+
+.job-card:hover {
+  border-color: rgba(255,107,26,.25);
+  background: var(--ink-light);
+  transform: translateX(4px);
+  box-shadow: -4px 0 24px rgba(255,107,26,.08);
+}
+
+.jc-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+.jc-badges {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+.jc-skill {
+  padding: 3px 11px;
+  border-radius: 5px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .3px;
+}
+.sk-plumber  { background: rgba(59,130,246,.12); color: #60A5FA; }
+.sk-electrician { background: rgba(245,158,11,.1); color: #FBBF24; }
+.sk-painter  { background: rgba(236,72,153,.1); color: #F472B6; }
+.sk-carpenter { background: rgba(16,185,129,.1); color: #34D399; }
+.sk-mazdoor  { background: rgba(139,92,246,.1); color: #A78BFA; }
+.sk-tile     { background: rgba(249,115,22,.1); color: #FB923C; }
+
+.jc-urgent {
+  padding: 3px 10px;
+  background: rgba(255,61,61,.12);
+  color: #FF3D3D;
+  border-radius: 5px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .5px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.jc-contract-badge {
+  padding: 3px 10px;
+  background: rgba(29,184,122,.1);
+  color: var(--green);
+  border-radius: 5px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .5px;
+}
+.jc-pay {
+  font-family: 'Teko', sans-serif;
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--green);
+  white-space: nowrap;
+  line-height: 1;
+}
+.jc-pay span { font-family: 'Mukta', sans-serif; font-size: 12px; color: var(--muted); }
+.jc-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--sand);
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+.jc-desc {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 14px;
+}
+.jc-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.jc-loc {
+  font-size: 12px;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.jc-loc-dot {
+  width: 4px; height: 4px;
+  background: var(--muted);
+  border-radius: 50%;
+}
+.apply-btn {
+  padding: 8px 18px;
+  background: var(--orange);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  font-family: 'Mukta', sans-serif;
+  cursor: pointer;
+  transition: all .2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.apply-btn:hover {
+  background: #FF8844;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(255,107,26,.3);
+}
+.no-jobs {
+  display: none;
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--muted);
+}
+.no-jobs-icon { font-size: 48px; margin-bottom: 12px; }
+.no-jobs-text { font-size: 15px; font-weight: 600; color: var(--sand-dim); }
+.no-jobs-sub { font-size: 13px; margin-top: 4px; }
+
+/* ─── SIDEBAR ────────────────────────────────────────── */
+.sidebar-sticky {
+  position: sticky;
+  top: 130px;
+}
+
+/* Post CTA box */
+.post-box {
+  background: linear-gradient(135deg, rgba(255,107,26,.15) 0%, rgba(255,107,26,.05) 100%);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+}
+.post-box::before {
+  content: '🏗️';
+  position: absolute;
+  right: 12px; top: 8px;
+  font-size: 56px;
+  opacity: .1;
+}
+.post-box-title {
+  font-family: 'Teko', sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--sand);
+  margin-bottom: 6px;
+}
+.post-box-sub {
+  font-size: 12px;
+  color: var(--sand-dim);
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+.post-box-btn {
+  width: 100%;
+  padding: 11px;
+  background: var(--orange);
+  color: white;
+  border: none;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: 'Mukta', sans-serif;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all .2s;
+}
+.post-box-btn:hover {
+  background: #FF8844;
+  transform: translateY(-1px);
+  box-shadow: 0 5px 18px rgba(255,107,26,.35);
+}
+
+/* Worker cards */
+.workers-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+.workers-title {
+  font-family: 'Teko', sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--sand);
+}
+.see-more {
+  font-size: 11px;
+  color: var(--orange);
+  font-weight: 600;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  background: none;
+  border: none;
+  font-family: 'Mukta', sans-serif;
+}
+
+.worker-card {
+  background: var(--ink-mid);
+  border: 1px solid var(--border-dim);
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 12px;
+  transition: all .2s;
+}
+.worker-card:hover {
+  border-color: rgba(29,184,122,.2);
+  background: var(--ink-light);
+}
+.wc-row {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+.wc-avatar {
+  width: 46px; height: 46px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+  position: relative;
+}
+.wc-verified {
+  position: absolute;
+  bottom: -3px; right: -3px;
+  width: 16px; height: 16px;
+  background: var(--green);
+  border-radius: 50%;
+  font-size: 9px;
+  color: white;
+  border: 2px solid var(--ink-mid);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.wc-info { flex: 1; min-width: 0; }
+.wc-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--sand);
+  margin-bottom: 2px;
+}
+.wc-skill-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.wc-avail-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.wc-rate {
+  font-family: 'Teko', sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--green);
+  white-space: nowrap;
+  line-height: 1;
+}
+.wc-rate span { font-family: 'Mukta', sans-serif; font-size: 11px; color: var(--muted); }
+.wc-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 10px;
+}
+.wc-tag {
+  padding: 2px 8px;
+  background: rgba(255,107,26,.07);
+  border: 1px solid rgba(255,107,26,.15);
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--sand-dim);
+  letter-spacing: .3px;
+}
+.wc-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.wc-rating {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.wc-rating-count { color: var(--muted); font-weight: 400; font-size: 11px; }
+.wa-contact-btn {
+  padding: 7px 14px;
+  background: var(--wa);
+  color: white;
+  border: none;
+  border-radius: 7px;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: 'Mukta', sans-serif;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: all .2s;
+}
+.wa-contact-btn:hover {
+  background: #1ebe5a;
+  transform: translateY(-1px);
+}
+
+/* ─── HOW IT WORKS ──────────────────────────────────── */
+.how-section {
+  background: var(--ink-mid);
+  border-top: 1px solid var(--border-dim);
+  border-bottom: 1px solid var(--border-dim);
+}
+.how-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  margin-top: 60px;
+}
+.how-card {
+  position: relative;
+}
+.how-num {
+  font-family: 'Teko', sans-serif;
+  font-size: 80px;
+  font-weight: 700;
+  color: rgba(255,107,26,.08);
+  line-height: 1;
+  position: absolute;
+  top: -20px; left: -10px;
+}
+.how-icon {
+  font-size: 38px;
+  margin-bottom: 16px;
+  display: block;
+  position: relative;
+}
+.how-title {
+  font-family: 'Teko', sans-serif;
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--sand);
+  margin-bottom: 8px;
+}
+.how-desc {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+.how-connector {
+  position: absolute;
+  top: 24px; right: -20px;
+  width: 40px; height: 2px;
+  background: linear-gradient(90deg, var(--border-dim), transparent);
+}
+
+/* ─── REGISTER SECTION ──────────────────────────────── */
+.register-section {
+  background: var(--ink);
+}
+.reg-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 40px;
+  background: var(--ink-mid);
+  padding: 5px;
+  border-radius: 12px;
+  display: inline-flex;
+  border: 1px solid var(--border-dim);
+}
+.reg-tab {
+  padding: 10px 28px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: 'Mukta', sans-serif;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  transition: all .2s;
+}
+.reg-tab.active {
+  background: var(--orange);
+  color: white;
+}
+.reg-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: start;
+}
+.reg-form-panel { display: block; }
+.reg-form-panel.hidden { display: none; }
+.form-group {
+  margin-bottom: 18px;
+}
+.form-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--sand-dim);
+  margin-bottom: 8px;
+}
+.form-input {
+  width: 100%;
+  padding: 12px 16px;
+  background: var(--ink-mid);
+  border: 1px solid var(--border-dim);
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: 'Mukta', sans-serif;
+  color: var(--sand);
+  outline: none;
+  transition: border-color .2s, background .2s;
+}
+.form-input:focus {
+  border-color: var(--orange);
+  background: var(--ink-light);
+}
+.form-input::placeholder { color: var(--muted); }
+.form-textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.form-select {
+  width: 100%;
+  padding: 12px 16px;
+  background: var(--ink-mid);
+  border: 1px solid var(--border-dim);
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: 'Mukta', sans-serif;
+  color: var(--sand);
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  transition: border-color .2s;
+}
+.form-select:focus { border-color: var(--orange); }
+.form-select option { background: var(--ink-mid); }
+.skill-multi {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.skill-toggle {
+  padding: 7px 16px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: 'Mukta', sans-serif;
+  cursor: pointer;
+  border: 1px solid var(--border-dim);
+  background: transparent;
+  color: var(--muted);
+  transition: all .15s;
+}
+.skill-toggle.sel {
+  border-color: var(--orange);
+  background: rgba(255,107,26,.1);
+  color: var(--orange);
+}
+
+/* Aadhaar OTP */
+.aadhaar-box {
+  background: rgba(29,184,122,.05);
+  border: 1px solid rgba(29,184,122,.2);
+  border-radius: 12px;
+  padding: 18px;
+  margin-bottom: 20px;
+}
+.aadhaar-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--green);
+  margin-bottom: 6px;
+}
+.aadhaar-sub {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 14px;
+  line-height: 1.5;
+}
+.otp-row {
+  display: flex;
+  gap: 10px;
+}
+.otp-input {
+  flex: 1;
+  padding: 11px 14px;
+  background: var(--ink-mid);
+  border: 1px solid rgba(29,184,122,.25);
+  border-radius: 9px;
+  font-size: 14px;
+  font-family: 'Mukta', sans-serif;
+  color: var(--sand);
+  outline: none;
+}
+.otp-input:focus { border-color: var(--green); }
+.otp-send-btn {
+  padding: 11px 18px;
+  background: var(--green);
+  color: white;
+  border: none;
+  border-radius: 9px;
+  font-size: 12px;
+  font-weight: 700;
+  font-family: 'Mukta', sans-serif;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background .2s;
+}
+.otp-send-btn:hover { background: #22D48A; }
+
+.form-submit {
+  width: 100%;
+  padding: 14px;
+  border-radius: 11px;
+  border: none;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: 'Mukta', sans-serif;
+  cursor: pointer;
+  transition: all .22s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  letter-spacing: .3px;
+}
+.submit-orange {
+  background: linear-gradient(135deg, var(--orange), #FF3D00);
+  color: white;
+}
+.submit-green {
+  background: linear-gradient(135deg, var(--green), var(--green-dim));
+  color: white;
+}
+.form-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(255,107,26,.3);
+}
+
+/* Register info panel */
+.reg-info {
+  padding-top: 20px;
+}
+.reg-info-title {
+  font-family: 'Teko', sans-serif;
+  font-size: 38px;
+  font-weight: 700;
+  color: var(--sand);
+  line-height: 1.1;
+  margin-bottom: 16px;
+}
+.reg-info-title span { color: var(--orange); }
+.reg-perks {
+  list-style: none;
+  margin-bottom: 32px;
+}
+.reg-perks li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border-dim);
+  font-size: 14px;
+  color: var(--sand-dim);
+  line-height: 1.5;
+}
+.reg-perks li:last-child { border: none; }
+.perk-icon {
+  font-size: 22px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.no-fee-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: rgba(255,107,26,.08);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--orange);
+}
+
+/* ─── MODAL ──────────────────────────────────────────── */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(10,14,20,.85);
+  backdrop-filter: blur(8px);
+  z-index: 900;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--ink-mid);
+  border: 1px solid var(--border-dim);
+  border-radius: 22px;
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: modalIn .3s ease;
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(.95) translateY(20px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+.modal-hdr {
+  padding: 24px 28px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+.modal-hdr-title {
+  font-family: 'Teko', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--sand);
+}
+.modal-close {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: var(--ink-light);
+  border: 1px solid var(--border-dim);
+  cursor: pointer;
+  font-size: 16px;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color .2s;
+}
+.modal-close:hover { color: var(--sand); }
+.modal-sub {
+  padding: 0 28px 18px;
+  font-size: 13px;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border-dim);
+}
+.modal-body { padding: 24px 28px; }
+
+/* WA Modal */
+.wa-modal-center {
+  text-align: center;
+  padding: 0 28px 28px;
+}
+.wa-big-icon { font-size: 64px; margin-bottom: 14px; }
+.wa-person-name {
+  font-family: 'Teko', sans-serif;
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--sand);
+  margin-bottom: 4px;
+}
+.wa-person-skill { font-size: 14px; color: var(--muted); margin-bottom: 20px; }
+.wa-flow-steps {
+  background: rgba(29,184,122,.05);
+  border: 1px solid rgba(29,184,122,.15);
+  border-radius: 12px;
+  padding: 16px;
+  text-align: left;
+  margin-bottom: 20px;
+}
+.wa-step {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+.wa-step:last-child { margin-bottom: 0; }
+.wa-step-num {
+  width: 24px; height: 24px;
+  background: var(--wa);
+  border-radius: 50%;
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.wa-step-text { font-size: 13px; color: var(--sand-dim); line-height: 1.5; }
+.wa-open-btn {
+  width: 100%;
+  padding: 15px;
+  background: var(--wa);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: 'Mukta', sans-serif;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all .2s;
+  margin-bottom: 12px;
+}
+.wa-open-btn:hover {
+  background: #1ebe5a;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 22px rgba(37,211,102,.3);
+}
+.no-comm-note {
+  font-size: 12px;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* ─── TOAST ──────────────────────────────────────────── */
+.toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--ink-light);
+  border: 1px solid var(--border);
+  color: var(--sand);
+  padding: 13px 28px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  z-index: 9999;
+  transition: transform .4s cubic-bezier(.34,1.56,.64,1);
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 10px 40px rgba(0,0,0,.5);
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+/* ─── FOOTER ─────────────────────────────────────────── */
+footer {
+  background: var(--ink-mid);
+  border-top: 1px solid var(--border-dim);
+  padding: 60px 40px 30px;
+}
+.footer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.footer-top {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 60px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid var(--border-dim);
+  margin-bottom: 30px;
+}
+.footer-brand-desc {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.7;
+  margin-top: 12px;
+  max-width: 260px;
+}
+.footer-col-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--sand-dim);
+  margin-bottom: 16px;
+}
+.footer-links { list-style: none; }
+.footer-links li {
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color .2s;
+}
+.footer-links li:hover { color: var(--sand-dim); }
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: var(--muted);
+}
+.footer-no-comm {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  background: rgba(29,184,122,.07);
+  border: 1px solid rgba(29,184,122,.15);
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--green);
+  letter-spacing: .5px;
+}
+
+/* ─── SCROLLBAR ──────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--ink); }
+::-webkit-scrollbar-thumb { background: rgba(255,107,26,.3); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,107,26,.5); }
+
+/* ─── RESPONSIVE ─────────────────────────────────────── */
+@media (max-width: 900px) {
+  nav { padding: 0 20px; }
+  .hero { padding: 90px 20px 50px; }
+  .hero-inner { grid-template-columns: 1fr; }
+  .hero-cards { display: none; }
+  section { padding: 70px 20px; }
+  .app-layout { grid-template-columns: 1fr; }
+  .sidebar-sticky { position: static; }
+  .how-grid { grid-template-columns: 1fr; gap: 30px; }
+  .reg-layout { grid-template-columns: 1fr; }
+  .footer-top { grid-template-columns: 1fr; gap: 30px; }
+  .filter-inner { padding: 0 20px; }
+  .app-section { padding: 40px 20px; }
+  .form-row { grid-template-columns: 1fr; }
+  .nav-links { gap: 4px; }
+  .nav-btn { padding: 6px 12px; font-size: 12px; }
+}
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- ═══ NAV ═══════════════════════════════════════════ -->
+<nav>
+  <a class="nav-logo" href="#">
+    <div class="nav-logo-mark">🔨</div>
+    <div>
+      <div class="nav-logo-text">Rozgar<em>Saathi</em></div>
+      <div class="nav-tagline">रोज़गार साथी · No Middleman</div>
+    </div>
+  </a>
+  <div class="nav-links">
+    <button class="nav-btn nav-btn-ghost" onclick="scrollTo('jobs')">Browse Jobs</button>
+    <button class="nav-btn nav-btn-ghost" onclick="scrollTo('how')">How It Works</button>
+    <button class="nav-btn nav-btn-green" onclick="scrollTo('register')">👷 Register</button>
+    <button class="nav-btn nav-btn-orange" onclick="openPostModal()">+ Post Job</button>
+  </div>
+</nav>
+
+<!-- ═══ HERO ════════════════════════════════════════════ -->
+<section class="hero" id="hero">
+  <div class="hero-bg-grid"></div>
+  <div class="hero-glow-1"></div>
+  <div class="hero-glow-2"></div>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-eyebrow"><span class="live-dot"></span> 86 Jobs Live Today in Mumbai</div>
+      <h1 class="hero-h1">KAAM DHUNDO<span>SEEDHA GHAR SE.</span></h1>
+      <div class="hero-h1-devanagari">नाका छोड़ो, डिजिटल पर आओ।</div>
+      <p class="hero-desc">
+        Daily wage workers — plumbers, electricians, painters, mazdoors — connect directly with households and contractors. <strong>No middleman. No commission. Just work.</strong>
+      </p>
+      <div class="hero-ctas">
+        <button class="cta-primary" onclick="scrollTo('register')">👷 Register as Worker</button>
+        <button class="cta-secondary" onclick="openPostModal()">📋 Post a Job Today</button>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <div class="hero-stat-val">1,240</div>
+          <div class="hero-stat-label">Workers Active</div>
+        </div>
+        <div>
+          <div class="hero-stat-val">86</div>
+          <div class="hero-stat-label">Jobs Today</div>
+        </div>
+        <div>
+          <div class="hero-stat-val">₹0</div>
+          <div class="hero-stat-label">Commission</div>
+        </div>
+        <div>
+          <div class="hero-stat-val">12</div>
+          <div class="hero-stat-label">Localities</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero card cluster -->
+    <div class="hero-cards" style="height:320px; width:420px; position:relative;">
+      <!-- Back card 1 -->
+      <div class="hc hc-1" style="background:var(--ink-light); top:0; right:0;">
+        <div class="hc-worker-row">
+          <div class="hc-avatar" style="background:rgba(245,158,11,.1);">⚡<div class="hc-verified">✓</div></div>
+          <div>
+            <div class="hc-name">Dinesh Kumar</div>
+            <div class="hc-meta"><span class="hc-avail"></span>Available · Kurla</div>
+          </div>
+        </div>
+        <div class="hc-footer">
+          <div class="hc-rate">₹700 <span>/day</span></div>
+          <div class="hc-rating">⭐ 4.9</div>
+        </div>
+      </div>
+      <!-- Back card 2 -->
+      <div class="hc hc-2" style="background:var(--ink-light); bottom:10px; left:-10px;">
+        <div class="hc-worker-row">
+          <div class="hc-avatar" style="background:rgba(236,72,153,.1);">🖌️<div class="hc-verified">✓</div></div>
+          <div>
+            <div class="hc-name">Sanjay Rathore</div>
+            <div class="hc-meta"><span class="hc-avail"></span>Available · Chembur</div>
+          </div>
+        </div>
+        <div class="hc-footer">
+          <div class="hc-rate">₹600 <span>/day</span></div>
+          <div class="hc-rating">⭐ 4.7</div>
+        </div>
+      </div>
+      <!-- Main card -->
+      <div class="hc hc-main" style="top:60px; left:40px;">
+        <div class="hc-worker-row">
+          <div class="hc-avatar" style="background:rgba(59,130,246,.12);">🔧<div class="hc-verified">✓</div></div>
+          <div>
+            <div class="hc-name">Mohan Yadav</div>
+            <div class="hc-meta"><span class="hc-avail"></span>Available Now · Sion</div>
+          </div>
+        </div>
+        <div class="hc-tags">
+          <span class="hc-tag" style="background:rgba(59,130,246,.12);color:#60A5FA;">Plumbing</span>
+          <span class="hc-tag" style="background:rgba(59,130,246,.12);color:#60A5FA;">Pipe Fitting</span>
+          <span class="hc-tag" style="background:rgba(59,130,246,.12);color:#60A5FA;">Motor Repair</span>
+        </div>
+        <div class="hc-footer">
+          <div>
+            <div class="hc-rate">₹550 <span>/day</span></div>
+            <div class="hc-rating" style="margin-top:2px;">⭐ 4.8 <span style="color:var(--muted);font-size:11px;">(34 jobs)</span></div>
+          </div>
+          <button class="hc-wa" onclick="openWA('Mohan Yadav','Plumber · Verified ✓')">💬 WhatsApp</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FILTER BAR ══════════════════════════════════════ -->
+<div class="filter-section" id="jobs">
+  <div class="filter-inner">
+    <span class="filter-label-text">Skill ↓</span>
+    <div class="filter-chips" id="filterChips">
+      <button class="chip active" data-skill="all" onclick="filterSkill('all',this)">🔍 All Jobs</button>
+      <button class="chip" data-skill="plumber" onclick="filterSkill('plumber',this)">🔧 Plumber</button>
+      <button class="chip" data-skill="electrician" onclick="filterSkill('electrician',this)">⚡ Electrician</button>
+      <button class="chip" data-skill="painter" onclick="filterSkill('painter',this)">🖌️ Painter</button>
+      <button class="chip" data-skill="carpenter" onclick="filterSkill('carpenter',this)">🪚 Carpenter</button>
+      <button class="chip" data-skill="mazdoor" onclick="filterSkill('mazdoor',this)">💪 Mazdoor</button>
+      <button class="chip" data-skill="tile" onclick="filterSkill('tile',this)">🪟 Tile Layer</button>
+    </div>
+    <div class="filter-loc">📍 Sion, Mumbai ▾</div>
+  </div>
+</div>
+
+<!-- ═══ APP / JOB FEED ══════════════════════════════════ -->
+<div class="app-section">
+  <div class="app-layout">
+
+    <!-- JOB FEED -->
+    <div>
+      <div class="jobs-head">
+        <div class="jobs-title">
+          <span class="live-dot"></span> Live Job Feed
+          <span class="count-badge" id="jobCount">6 jobs</span>
+        </div>
+        <span style="font-size:12px;color:var(--muted);">Updated 2 min ago</span>
+      </div>
+
+      <div id="jobFeed">
+
+        <div class="job-card urgent" data-skill="plumber">
+          <div class="jc-top">
+            <div class="jc-badges">
+              <span class="jc-skill sk-plumber">🔧 Plumber</span>
+              <span class="jc-urgent"><span class="live-dot"></span> URGENT</span>
+            </div>
+            <div class="jc-pay">₹600 <span>/day</span></div>
+          </div>
+          <div class="jc-title">Pipe leakage repair — kitchen &amp; bathroom</div>
+          <div class="jc-desc">2 leaking pipes under sink and in bathroom. Must bring own tools. Same-day work, 2–3 hours expected. Will provide chai.</div>
+          <div class="jc-bottom">
+            <div class="jc-loc">📍 Sion West, 1.2 km <span class="jc-loc-dot"></span> ⏱ 35 min ago</div>
+            <button class="apply-btn" onclick="openWA('Ramesh K.','Plumber needed')">📲 Contact</button>
+          </div>
+        </div>
+
+        <div class="job-card contract" data-skill="electrician">
+          <div class="jc-top">
+            <div class="jc-badges">
+              <span class="jc-skill sk-electrician">⚡ Electrician</span>
+              <span class="jc-contract-badge">2-DAY CONTRACT</span>
+            </div>
+            <div class="jc-pay">₹800 <span>/day</span></div>
+          </div>
+          <div class="jc-title">Full wiring — new 2BHK flat, Chembur</div>
+          <div class="jc-desc">Complete internal wiring for new construction 2BHK. Must know switchboard fitting and MCB setup. Contractor will supervise on Day 1.</div>
+          <div class="jc-bottom">
+            <div class="jc-loc">📍 Chembur East, 3.4 km <span class="jc-loc-dot"></span> ⏱ 1 hr ago</div>
+            <button class="apply-btn" onclick="openWA('Suresh Contractors','Electrician needed')">📲 Contact</button>
+          </div>
+        </div>
+
+        <div class="job-card" data-skill="painter">
+          <div class="jc-top">
+            <div class="jc-badges">
+              <span class="jc-skill sk-painter">🖌️ Painter</span>
+              <span class="jc-contract-badge" style="background:rgba(147,51,234,.1);color:#C084FC;border:none;">3-DAY JOB</span>
+            </div>
+            <div class="jc-pay">₹650 <span>/day</span></div>
+          </div>
+          <div class="jc-title">3BHK interior painting, 2 coats Asian Paints</div>
+          <div class="jc-desc">Full flat painting — 3 bedroom, hall, kitchen. Paint &amp; material supplied by owner. Starts tomorrow, experienced painter only.</div>
+          <div class="jc-bottom">
+            <div class="jc-loc">📍 Kurla W, 2.1 km <span class="jc-loc-dot"></span> ⏱ 2 hrs ago</div>
+            <button class="apply-btn" onclick="openWA('Mehta Family','Painter needed')">📲 Contact</button>
+          </div>
+        </div>
+
+        <div class="job-card" data-skill="mazdoor">
+          <div class="jc-top">
+            <div class="jc-badges">
+              <span class="jc-skill sk-mazdoor">💪 Mazdoor</span>
+              <span class="jc-urgent" style="background:rgba(251,191,36,.08);color:#FCD34D;">NEED 3 PEOPLE</span>
+            </div>
+            <div class="jc-pay">₹450 <span>/day</span></div>
+          </div>
+          <div class="jc-title">Office furniture loading/unloading &amp; shifting</div>
+          <div class="jc-desc">Office relocation — heavy furniture, boxes. Half-day job starting 8 AM sharp. Food &amp; water provided. Labour contractor on site.</div>
+          <div class="jc-bottom">
+            <div class="jc-loc">📍 Andheri W, 5.8 km <span class="jc-loc-dot"></span> ⏱ 3 hrs ago</div>
+            <button class="apply-btn" onclick="openWA('Move-It Logistics','Mazdoor needed')">📲 Contact</button>
+          </div>
+        </div>
+
+        <div class="job-card" data-skill="carpenter">
+          <div class="jc-top">
+            <div class="jc-badges">
+              <span class="jc-skill sk-carpenter">🪚 Carpenter</span>
+            </div>
+            <div class="jc-pay">₹700 <span>/day</span></div>
+          </div>
+          <div class="jc-title">Modular kitchen cabinet assembly &amp; fitting</div>
+          <div class="jc-desc">Pre-manufactured units to assemble and wall-fix. Holes pre-drilled. Experienced carpenter only — 1-day job, Bandra East.</div>
+          <div class="jc-bottom">
+            <div class="jc-loc">📍 Bandra E, 4.3 km <span class="jc-loc-dot"></span> ⏱ 4 hrs ago</div>
+            <button class="apply-btn" onclick="openWA('Home Reno Co.','Carpenter needed')">📲 Contact</button>
+          </div>
+        </div>
+
+        <div class="job-card" data-skill="tile">
+          <div class="jc-top">
+            <div class="jc-badges">
+              <span class="jc-skill sk-tile">🪟 Tile Layer</span>
+            </div>
+            <div class="jc-pay">₹750 <span>/day</span></div>
+          </div>
+          <div class="jc-title">Bathroom tiling — 60×60 vitrified tiles, full room</div>
+          <div class="jc-desc">Floor + wall tiling for full bathroom. Tiles and adhesive supplied. Grout work included. Experienced tile-setter only, Ghatkopar West.</div>
+          <div class="jc-bottom">
+            <div class="jc-loc">📍 Ghatkopar W, 6.1 km <span class="jc-loc-dot"></span> ⏱ 5 hrs ago</div>
+            <button class="apply-btn" onclick="openWA('Raj Construction','Tile Layer needed')">📲 Contact</button>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="no-jobs" id="noJobs">
+        <div class="no-jobs-icon">🔍</div>
+        <div class="no-jobs-text">No jobs posted for this skill yet.</div>
+        <div class="no-jobs-sub">Be the first to post one — it's free.</div>
+      </div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <div>
+      <div class="sidebar-sticky">
+
+        <!-- Post CTA -->
+        <div class="post-box">
+          <div class="post-box-title">Need someone today?</div>
+          <div class="post-box-sub">Post your job in 60 seconds. Workers in your locality will see it immediately on their feed.</div>
+          <button class="post-box-btn" onclick="openPostModal()">+ Post a Job — Free</button>
+        </div>
+
+        <!-- Workers nearby -->
+        <div class="workers-head">
+          <div class="workers-title">Available Workers</div>
+          <button class="see-more" onclick="scrollTo('register')">See All →</button>
+        </div>
+
+        <div class="worker-card">
+          <div class="wc-row">
+            <div class="wc-avatar" style="background:rgba(59,130,246,.1);">🔧<div class="wc-verified">✓</div></div>
+            <div class="wc-info">
+              <div class="wc-name">Mohan Yadav</div>
+              <div class="wc-skill-row"><span class="wc-avail-dot" style="background:var(--green);"></span>Available Now · Sion</div>
+            </div>
+            <div class="wc-rate">₹550 <span>/day</span></div>
+          </div>
+          <div class="wc-tags">
+            <span class="wc-tag">Plumbing</span>
+            <span class="wc-tag">Pipe Fitting</span>
+            <span class="wc-tag">Motor Repair</span>
+          </div>
+          <div class="wc-footer">
+            <div class="wc-rating">⭐ 4.8 <span class="wc-rating-count">(34 jobs)</span></div>
+            <button class="wa-contact-btn" onclick="openWA('Mohan Yadav','Plumber · Verified ✓')">💬 WhatsApp</button>
+          </div>
+        </div>
+
+        <div class="worker-card">
+          <div class="wc-row">
+            <div class="wc-avatar" style="background:rgba(245,158,11,.1);">⚡<div class="wc-verified">✓</div></div>
+            <div class="wc-info">
+              <div class="wc-name">Dinesh Kumar</div>
+              <div class="wc-skill-row"><span class="wc-avail-dot" style="background:var(--green);"></span>Available Now · Kurla</div>
+            </div>
+            <div class="wc-rate">₹700 <span>/day</span></div>
+          </div>
+          <div class="wc-tags">
+            <span class="wc-tag">Wiring</span>
+            <span class="wc-tag">MCB Board</span>
+            <span class="wc-tag">AC Install</span>
+          </div>
+          <div class="wc-footer">
+            <div class="wc-rating">⭐ 4.9 <span class="wc-rating-count">(61 jobs)</span></div>
+            <button class="wa-contact-btn" onclick="openWA('Dinesh Kumar','Electrician · Verified ✓')">💬 WhatsApp</button>
+          </div>
+        </div>
+
+        <div class="worker-card">
+          <div class="wc-row">
+            <div class="wc-avatar" style="background:rgba(236,72,153,.1);">🖌️<div class="wc-verified">✓</div></div>
+            <div class="wc-info">
+              <div class="wc-name">Sanjay Rathore</div>
+              <div class="wc-skill-row"><span class="wc-avail-dot" style="background:var(--amber);"></span>Avail. Tomorrow · Chembur</div>
+            </div>
+            <div class="wc-rate">₹600 <span>/day</span></div>
+          </div>
+          <div class="wc-tags">
+            <span class="wc-tag">Interior Paint</span>
+            <span class="wc-tag">Putty</span>
+            <span class="wc-tag">Polish</span>
+          </div>
+          <div class="wc-footer">
+            <div class="wc-rating">⭐ 4.7 <span class="wc-rating-count">(22 jobs)</span></div>
+            <button class="wa-contact-btn" onclick="openWA('Sanjay Rathore','Painter · Verified ✓')">💬 WhatsApp</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ HOW IT WORKS ════════════════════════════════════ -->
+<section class="how-section" id="how">
+  <div class="section-inner">
+    <div class="section-label">How It Works</div>
+    <div class="section-title">SIMPLE. DIRECT.<br>NO AGENT.</div>
+    <div class="section-sub">Three steps to connect — whether you're looking for work or need a worker today.</div>
+    <div class="how-grid">
+      <div class="how-card">
+        <div class="how-num">01</div>
+        <span class="how-icon">📝</span>
+        <div class="how-title">Register Your Skill</div>
+        <div class="how-desc">Workers list their skills, daily rate, and availability. Verify with Aadhaar OTP to get the trusted ✓ badge that increases callbacks 3x.</div>
+        <div class="how-connector"></div>
+      </div>
+      <div class="how-card">
+        <div class="how-num">02</div>
+        <span class="how-icon">📍</span>
+        <div class="how-title">Geo-Based Job Feed</div>
+        <div class="how-desc">Jobs appear on your feed sorted by distance from your naka. Filter by skill. See pay rate, description, and location before you respond.</div>
+        <div class="how-connector"></div>
+      </div>
+      <div class="how-card">
+        <div class="how-num">03</div>
+        <span class="how-icon">💬</span>
+        <div class="how-title">WhatsApp Directly</div>
+        <div class="how-desc">One tap opens WhatsApp with a pre-filled message in Hindi. Negotiate rate, confirm address — pay the worker directly. We take ₹0.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ REGISTER ════════════════════════════════════════ -->
+<section class="register-section" id="register">
+  <div class="section-inner">
+    <div class="section-label">Join RozgarSaathi</div>
+    <div class="reg-tabs">
+      <button class="reg-tab active" onclick="switchTab('worker',this)">👷 I'm a Worker</button>
+      <button class="reg-tab" onclick="switchTab('hirer',this)">🏠 I Need Workers</button>
+    </div>
+
+    <div class="reg-layout">
+      <!-- Worker Form -->
+      <div class="reg-form-panel" id="workerPanel">
+        <div class="form-group">
+          <label class="form-label">Full Name</label>
+          <input class="form-input" placeholder="Mohan Sharma" />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">WhatsApp Number</label>
+            <input class="form-input" placeholder="9876543210" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Your Area / Naka</label>
+            <input class="form-input" placeholder="Sion Naka, Mumbai" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Your Skills</label>
+          <div class="skill-multi">
+            <button class="skill-toggle" onclick="toggleSkill(this)">🔧 Plumber</button>
+            <button class="skill-toggle" onclick="toggleSkill(this)">⚡ Electrician</button>
+            <button class="skill-toggle" onclick="toggleSkill(this)">🖌️ Painter</button>
+            <button class="skill-toggle" onclick="toggleSkill(this)">🪚 Carpenter</button>
+            <button class="skill-toggle" onclick="toggleSkill(this)">💪 Mazdoor</button>
+            <button class="skill-toggle" onclick="toggleSkill(this)">🪟 Tile Layer</button>
+            <button class="skill-toggle" onclick="toggleSkill(this)">🔩 Welder</button>
+            <button class="skill-toggle" onclick="toggleSkill(this)">🧹 Cleaner</button>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Daily Rate (₹)</label>
+            <input class="form-input" placeholder="e.g. 600" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Availability</label>
+            <select class="form-select">
+              <option>✅ Available Now</option>
+              <option>🕗 From Afternoon</option>
+              <option>📅 Tomorrow</option>
+              <option>❌ Not Today</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Work Experience (optional)</label>
+          <textarea class="form-input form-textarea" placeholder="e.g. 8 years plumbing — residential and commercial, handled major pipeline projects in Dharavi..."></textarea>
+        </div>
+
+        <div class="aadhaar-box">
+          <div class="aadhaar-title">🛡️ Aadhaar OTP Verification <span style="font-size:11px;color:var(--muted);font-weight:400;font-family:'Mukta',sans-serif;">(Optional but recommended)</span></div>
+          <div class="aadhaar-sub">Get the ✓ Verified badge. Workers with Aadhaar verification get 3× more job contacts because hirers trust them more.</div>
+          <div class="form-group" style="margin-bottom:10px;">
+            <input class="form-input" placeholder="Aadhaar Number (12 digits)" style="border-color:rgba(29,184,122,.2);" />
+          </div>
+          <div class="otp-row">
+            <input class="otp-input" placeholder="Enter OTP sent to Aadhaar mobile" />
+            <button class="otp-send-btn" onclick="showToast('📱 OTP sent to your Aadhaar-linked mobile!')">Send OTP</button>
+          </div>
+        </div>
+
+        <button class="form-submit submit-green" onclick="submitForm('worker')">✓ Register Free — Start Getting Jobs Today</button>
+      </div>
+
+      <!-- Hirer Form -->
+      <div class="reg-form-panel hidden" id="hirerPanel">
+        <div class="form-group">
+          <label class="form-label">Job Title</label>
+          <input class="form-input" placeholder="e.g. Pipe leakage repair — kitchen bathroom" />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Skill Needed</label>
+            <select class="form-select">
+              <option>🔧 Plumber</option>
+              <option>⚡ Electrician</option>
+              <option>🖌️ Painter</option>
+              <option>🪚 Carpenter</option>
+              <option>💪 Mazdoor / Helper</option>
+              <option>🪟 Tile Layer</option>
+              <option>🔩 Welder</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Duration</label>
+            <select class="form-select">
+              <option>Half day (4 hrs)</option>
+              <option>Full day</option>
+              <option>2–3 days</option>
+              <option>Weekly contract</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Job Description</label>
+          <textarea class="form-input form-textarea" placeholder="Describe the work clearly — scope, what materials you'll provide, any special requirements..."></textarea>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Pay Offered (₹)</label>
+            <input class="form-input" placeholder="e.g. 600 per day" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Start Time</label>
+            <input class="form-input" type="time" value="08:00" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Your Area</label>
+            <input class="form-input" placeholder="Sion West, Mumbai" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Your Name / Company</label>
+            <input class="form-input" placeholder="Mehta Family / ABC Contractors" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">WhatsApp Number (workers will contact you directly)</label>
+          <input class="form-input" placeholder="9876543210" />
+        </div>
+        <button class="form-submit submit-orange" onclick="submitForm('hirer')">🚀 Post Job — Workers See This Instantly</button>
+      </div>
+
+      <!-- Info Panel -->
+      <div class="reg-info">
+        <div class="reg-info-title">Why <span>RozgarSaathi</span><br>is different.</div>
+        <ul class="reg-perks">
+          <li>
+            <span class="perk-icon">🚫</span>
+            <div><strong style="color:var(--sand);">Zero commission, always.</strong><br>We take nothing from worker pay. What you earn, you keep. What you agree to pay, goes directly to the worker.</div>
+          </li>
+          <li>
+            <span class="perk-icon">📍</span>
+            <div><strong style="color:var(--sand);">Hyperlocal — your naka, online.</strong><br>Jobs sorted by distance. Workers from your area show up first. No need to travel far for small work.</div>
+          </li>
+          <li>
+            <span class="perk-icon">🛡️</span>
+            <div><strong style="color:var(--sand);">Aadhaar-verified badges.</strong><br>Workers who complete OTP verification get a ✓ badge. Hirers know they're getting a verified professional.</div>
+          </li>
+          <li>
+            <span class="perk-icon">💬</span>
+            <div><strong style="color:var(--sand);">WhatsApp-style contact.</strong><br>No app to install. Workers and hirers connect via WhatsApp — a platform everyone already uses and trusts.</div>
+          </li>
+          <li>
+            <span class="perk-icon">⭐</span>
+            <div><strong style="color:var(--sand);">Job history builds your reputation.</strong><br>Every completed job adds to your public rating. Good workers get more calls. Quality is rewarded.</div>
+          </li>
+        </ul>
+        <div class="no-fee-badge">🤝 No Middleman · No Agent Cut · No Registration Fee</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══════════════════════════════════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="nav-logo" style="display:flex;align-items:center;gap:10px;margin-bottom:0;">
+          <div class="nav-logo-mark">🔨</div>
+          <div>
+            <div class="nav-logo-text" style="font-family:'Teko',sans-serif;font-size:26px;font-weight:600;color:var(--sand);">Rozgar<em style="color:var(--orange);font-style:normal;">Saathi</em></div>
+          </div>
+        </div>
+        <p class="footer-brand-desc">Connecting daily wage workers directly with households and contractors across Mumbai. No middleman. No commission. Just kaam.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">For Workers</div>
+        <ul class="footer-links">
+          <li onclick="scrollTo('register')">Register Your Skills</li>
+          <li>Set Availability</li>
+          <li>Get Aadhaar Verified</li>
+          <li>Build Your Rating</li>
+          <li onclick="scrollTo('jobs')">Browse Jobs Near You</li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">For Hirers</div>
+        <ul class="footer-links">
+          <li onclick="openPostModal()">Post a Job Free</li>
+          <li onclick="scrollTo('jobs')">Find Workers Nearby</li>
+          <li>Filter by Skill</li>
+          <li>Verified Worker List</li>
+          <li>Contact via WhatsApp</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 RozgarSaathi · Made for India's daily wage workers</span>
+      <div class="footer-no-comm">🤝 ₹0 Commission · Always Free</div>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══ WA MODAL ═════════════════════════════════════════ -->
+<div class="modal-overlay" id="waModal" onclick="closeModalOutside(event,'waModal')">
+  <div class="modal">
+    <div class="modal-hdr">
+      <div class="modal-hdr-title">Direct Contact</div>
+      <button class="modal-close" onclick="closeModal('waModal')">✕</button>
+    </div>
+    <div class="modal-sub">No platform involvement — you connect directly.</div>
+    <div class="wa-modal-center">
+      <div class="wa-big-icon">💬</div>
+      <div class="wa-person-name" id="waName">Mohan Yadav</div>
+      <div class="wa-person-skill" id="waSkill">Plumber · Verified ✓</div>
+      <div class="wa-flow-steps">
+        <div class="wa-step">
+          <div class="wa-step-num">1</div>
+          <div class="wa-step-text">Tap below — WhatsApp opens with a <strong style="color:var(--sand);">pre-filled message in Hindi</strong> to confirm your job details.</div>
+        </div>
+        <div class="wa-step">
+          <div class="wa-step-num">2</div>
+          <div class="wa-step-text">Share your address and when you need the work done. Agree on rate directly.</div>
+        </div>
+        <div class="wa-step">
+          <div class="wa-step-num">3</div>
+          <div class="wa-step-text"><strong style="color:var(--sand);">Pay the worker directly</strong> — cash or UPI. RozgarSaathi takes ₹0 from anyone.</div>
+        </div>
+      </div>
+      <button class="wa-open-btn" onclick="launchWA()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Open WhatsApp — Chat Directly
+      </button>
+      <div class="no-comm-note">🚫 No commission · 💸 Direct payment to worker</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ POST JOB MODAL ══════════════════════════════════ -->
+<div class="modal-overlay" id="postModal" onclick="closeModalOutside(event,'postModal')">
+  <div class="modal">
+    <div class="modal-hdr">
+      <div class="modal-hdr-title">📋 Post a Job</div>
+      <button class="modal-close" onclick="closeModal('postModal')">✕</button>
+    </div>
+    <div class="modal-sub">Free to post. Workers nearby will see this on their feed within seconds.</div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Job Title</label>
+        <input class="form-input" placeholder="e.g. Pipe leakage fix — kitchen & bathroom" />
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Skill Needed</label>
+          <select class="form-select">
+            <option>🔧 Plumber</option>
+            <option>⚡ Electrician</option>
+            <option>🖌️ Painter</option>
+            <option>🪚 Carpenter</option>
+            <option>💪 Mazdoor</option>
+            <option>🪟 Tile Layer</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Pay Offered (₹)</label>
+          <input class="form-input" placeholder="e.g. 600 per day" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Job Description</label>
+        <textarea class="form-input form-textarea" placeholder="Describe clearly what needs to be done, materials you'll provide..."></textarea>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Your Area</label>
+          <input class="form-input" placeholder="e.g. Sion West, Mumbai" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">WhatsApp Number</label>
+          <input class="form-input" placeholder="9876543210" />
+        </div>
+      </div>
+      <button class="form-submit submit-orange" onclick="submitPostJob()">🚀 Post Now — Reach Workers Instantly</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">✅ Done!</div>
+
+<script>
+/* ── Cursor ── */
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top  = e.clientY + 'px';
+  setTimeout(() => {
+    ring.style.left = e.clientX + 'px';
+    ring.style.top  = e.clientY + 'px';
+  }, 60);
+});
+
+/* ── Scroll helper ── */
+function scrollTo(id) {
+  document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+}
+
+/* ── Filter ── */
+function filterSkill(skill, el) {
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  const cards = document.querySelectorAll('#jobFeed .job-card');
+  let visible = 0;
+  cards.forEach(card => {
+    const match = skill === 'all' || card.dataset.skill === skill;
+    card.style.display = match ? 'block' : 'none';
+    if (match) visible++;
+  });
+  document.getElementById('jobCount').textContent = visible + (visible === 1 ? ' job' : ' jobs');
+  document.getElementById('noJobs').style.display = visible === 0 ? 'block' : 'none';
+}
+
+/* ── Skill toggles ── */
+function toggleSkill(el) { el.classList.toggle('sel'); }
+
+/* ── Tab switch ── */
+function switchTab(tab, el) {
+  document.querySelectorAll('.reg-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('workerPanel').classList.toggle('hidden', tab !== 'worker');
+  document.getElementById('hirerPanel').classList.toggle('hidden', tab !== 'hirer');
+}
+
+/* ── WA Modal ── */
+let waPersonName = '', waPersonSkill = '';
+function openWA(name, skill) {
+  waPersonName = name; waPersonSkill = skill;
+  document.getElementById('waName').textContent = name;
+  document.getElementById('waSkill').textContent = skill;
+  document.getElementById('waModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function launchWA() {
+  const msg = encodeURIComponent(`Namaste ${waPersonName}! Maine RozgarSaathi par aapka profile dekha. Mujhe ${waPersonSkill} ki zaroorat hai aaj. Kya aap available hain? Kripya apni location aur rate confirm karein. Dhanyawaad!`);
+  window.open(`https://wa.me/919999999999?text=${msg}`, '_blank');
+  closeModal('waModal');
+  showToast('📲 Opening WhatsApp...');
+}
+
+/* ── Post Modal ── */
+function openPostModal() {
+  document.getElementById('postModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function submitPostJob() {
+  closeModal('postModal');
+  showToast('🚀 Job posted! Workers nearby will contact you shortly.');
+}
+
+/* ── Close helpers ── */
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closeModalOutside(e, id) {
+  if (e.target === document.getElementById(id)) closeModal(id);
+}
+
+/* ── Form submit ── */
+function submitForm(type) {
+  if (type === 'worker') showToast('✅ Registered! You\'ll now appear on the job feed.');
+  else showToast('🚀 Job posted! Workers will reach out on WhatsApp.');
+}
+
+/* ── Toast ── */
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.innerHTML = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+/* ── OTP button ── */
+document.querySelectorAll('.otp-send-btn').forEach(btn => {
+  btn.addEventListener('click', () => showToast('📱 OTP sent to your Aadhaar-linked mobile!'));
+});
+
+/* ── Stagger job cards on load ── */
+document.querySelectorAll('.job-card').forEach((card, i) => {
+  card.style.opacity = '0';
+  card.style.transform = 'translateY(20px)';
+  card.style.transition = 'opacity .4s ease, transform .4s ease';
+  setTimeout(() => {
+    card.style.opacity = '1';
+    card.style.transform = 'translateY(0)';
+  }, 200 + i * 80);
+});
+</script>
+</body>
+</html>
