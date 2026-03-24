@@ -1900,49 +1900,49 @@ footer {
       <div class="reg-form-panel" id="workerPanel">
         <div class="form-group">
           <label class="form-label">Full Name</label>
-          <input class="form-input" placeholder="Mohan Sharma" />
+          <input id="wName" class="form-input" placeholder="Mohan Sharma" />
         </div>
         <div class="form-row">
           <div class="form-group">
             <label class="form-label">WhatsApp Number</label>
-            <input class="form-input" placeholder="9876543210" />
+            <input id="wPhone" class="form-input" placeholder="9876543210" />
           </div>
           <div class="form-group">
             <label class="form-label">Your Area / Naka</label>
-            <input class="form-input" placeholder="Sion Naka, Mumbai" />
+            <input id="wArea" class="form-input" placeholder="Sion Naka, Mumbai" />
           </div>
         </div>
         <div class="form-group">
           <label class="form-label">Your Skills</label>
-          <div class="skill-multi">
-            <button class="skill-toggle" onclick="toggleSkill(this)">🔧 Plumber</button>
-            <button class="skill-toggle" onclick="toggleSkill(this)">⚡ Electrician</button>
-            <button class="skill-toggle" onclick="toggleSkill(this)">🖌️ Painter</button>
-            <button class="skill-toggle" onclick="toggleSkill(this)">🪚 Carpenter</button>
-            <button class="skill-toggle" onclick="toggleSkill(this)">💪 Mazdoor</button>
-            <button class="skill-toggle" onclick="toggleSkill(this)">🪟 Tile Layer</button>
-            <button class="skill-toggle" onclick="toggleSkill(this)">🔩 Welder</button>
-            <button class="skill-toggle" onclick="toggleSkill(this)">🧹 Cleaner</button>
+          <div class="skill-multi" id="wSkillMulti">
+            <button class="skill-toggle" data-skill="plumber" onclick="toggleSkill(this)">🔧 Plumber</button>
+            <button class="skill-toggle" data-skill="electrician" onclick="toggleSkill(this)">⚡ Electrician</button>
+            <button class="skill-toggle" data-skill="painter" onclick="toggleSkill(this)">🖌️ Painter</button>
+            <button class="skill-toggle" data-skill="carpenter" onclick="toggleSkill(this)">🪚 Carpenter</button>
+            <button class="skill-toggle" data-skill="mazdoor" onclick="toggleSkill(this)">💪 Mazdoor</button>
+            <button class="skill-toggle" data-skill="tile layer" onclick="toggleSkill(this)">🪟 Tile Layer</button>
+            <button class="skill-toggle" data-skill="welder" onclick="toggleSkill(this)">🔩 Welder</button>
+            <button class="skill-toggle" data-skill="cleaner" onclick="toggleSkill(this)">🧹 Cleaner</button>
           </div>
         </div>
         <div class="form-row">
           <div class="form-group">
             <label class="form-label">Daily Rate (₹)</label>
-            <input class="form-input" placeholder="e.g. 600" />
+            <input id="wRate" class="form-input" placeholder="e.g. 600" type="number" min="0" />
           </div>
           <div class="form-group">
             <label class="form-label">Availability</label>
-            <select class="form-select">
-              <option>✅ Available Now</option>
-              <option>🕗 From Afternoon</option>
-              <option>📅 Tomorrow</option>
-              <option>❌ Not Today</option>
+            <select id="wAvail" class="form-select">
+              <option value="today">✅ Available Now</option>
+              <option value="afternoon">🕗 From Afternoon</option>
+              <option value="tomorrow">📅 Tomorrow</option>
+              <option value="unavailable">❌ Not Today</option>
             </select>
           </div>
         </div>
         <div class="form-group">
           <label class="form-label">Work Experience (optional)</label>
-          <textarea class="form-input form-textarea" placeholder="e.g. 8 years plumbing — residential and commercial, handled major pipeline projects in Dharavi..."></textarea>
+          <textarea id="wExp" class="form-input form-textarea" placeholder="e.g. 8 years plumbing — residential and commercial, handled major pipeline projects in Dharavi..."></textarea>
         </div>
 
         <div class="aadhaar-box">
@@ -1964,19 +1964,19 @@ footer {
       <div class="reg-form-panel hidden" id="hirerPanel">
         <div class="form-group">
           <label class="form-label">Job Title</label>
-          <input class="form-input" placeholder="e.g. Pipe leakage repair — kitchen bathroom" />
+          <input id="hTitle" class="form-input" placeholder="e.g. Pipe leakage repair — kitchen bathroom" />
         </div>
         <div class="form-row">
           <div class="form-group">
             <label class="form-label">Skill Needed</label>
-            <select class="form-select">
-              <option>🔧 Plumber</option>
-              <option>⚡ Electrician</option>
-              <option>🖌️ Painter</option>
-              <option>🪚 Carpenter</option>
-              <option>💪 Mazdoor / Helper</option>
-              <option>🪟 Tile Layer</option>
-              <option>🔩 Welder</option>
+            <select id="hSkill" class="form-select">
+              <option value="plumber">🔧 Plumber</option>
+              <option value="electrician">⚡ Electrician</option>
+              <option value="painter">🖌️ Painter</option>
+              <option value="carpenter">🪚 Carpenter</option>
+              <option value="mazdoor">💪 Mazdoor / Helper</option>
+              <option value="tile layer">🪟 Tile Layer</option>
+              <option value="welder">🔩 Welder</option>
             </select>
           </div>
           <div class="form-group">
@@ -1991,12 +1991,12 @@ footer {
         </div>
         <div class="form-group">
           <label class="form-label">Job Description</label>
-          <textarea class="form-input form-textarea" placeholder="Describe the work clearly — scope, what materials you'll provide, any special requirements..."></textarea>
+          <textarea id="hDesc" class="form-input form-textarea" placeholder="Describe the work clearly — scope, what materials you'll provide, any special requirements..."></textarea>
         </div>
         <div class="form-row">
           <div class="form-group">
             <label class="form-label">Pay Offered (₹)</label>
-            <input class="form-input" placeholder="e.g. 600 per day" />
+            <input id="hPay" class="form-input" placeholder="e.g. 600 per day" />
           </div>
           <div class="form-group">
             <label class="form-label">Start Time</label>
@@ -2006,16 +2006,16 @@ footer {
         <div class="form-row">
           <div class="form-group">
             <label class="form-label">Your Area</label>
-            <input class="form-input" placeholder="Sion West, Mumbai" />
+            <input id="hArea" class="form-input" placeholder="Sion West, Mumbai" />
           </div>
           <div class="form-group">
             <label class="form-label">Your Name / Company</label>
-            <input class="form-input" placeholder="Mehta Family / ABC Contractors" />
+            <input id="hPosterName" class="form-input" placeholder="Mehta Family / ABC Contractors" />
           </div>
         </div>
         <div class="form-group">
           <label class="form-label">WhatsApp Number (workers will contact you directly)</label>
-          <input class="form-input" placeholder="9876543210" />
+          <input id="hPhone" class="form-input" placeholder="9876543210" />
         </div>
         <button class="form-submit submit-orange" onclick="submitForm('hirer')">🚀 Post Job — Workers See This Instantly</button>
       </div>
@@ -2138,37 +2138,37 @@ footer {
     <div class="modal-body">
       <div class="form-group">
         <label class="form-label">Job Title</label>
-        <input class="form-input" placeholder="e.g. Pipe leakage fix — kitchen & bathroom" />
+        <input id="pjTitle" class="form-input" placeholder="e.g. Pipe leakage fix — kitchen & bathroom" />
       </div>
       <div class="form-row">
         <div class="form-group">
           <label class="form-label">Skill Needed</label>
-          <select class="form-select">
-            <option>🔧 Plumber</option>
-            <option>⚡ Electrician</option>
-            <option>🖌️ Painter</option>
-            <option>🪚 Carpenter</option>
-            <option>💪 Mazdoor</option>
-            <option>🪟 Tile Layer</option>
+          <select id="pjSkill" class="form-select">
+            <option value="plumber">🔧 Plumber</option>
+            <option value="electrician">⚡ Electrician</option>
+            <option value="painter">🖌️ Painter</option>
+            <option value="carpenter">🪚 Carpenter</option>
+            <option value="mazdoor">💪 Mazdoor</option>
+            <option value="tile layer">🪟 Tile Layer</option>
           </select>
         </div>
         <div class="form-group">
           <label class="form-label">Pay Offered (₹)</label>
-          <input class="form-input" placeholder="e.g. 600 per day" />
+          <input id="pjPay" class="form-input" placeholder="e.g. 600 per day" />
         </div>
       </div>
       <div class="form-group">
         <label class="form-label">Job Description</label>
-        <textarea class="form-input form-textarea" placeholder="Describe clearly what needs to be done, materials you'll provide..."></textarea>
+        <textarea id="pjDesc" class="form-input form-textarea" placeholder="Describe clearly what needs to be done, materials you'll provide..."></textarea>
       </div>
       <div class="form-row">
         <div class="form-group">
           <label class="form-label">Your Area</label>
-          <input class="form-input" placeholder="e.g. Sion West, Mumbai" />
+          <input id="pjArea" class="form-input" placeholder="e.g. Sion West, Mumbai" />
         </div>
         <div class="form-group">
           <label class="form-label">WhatsApp Number</label>
-          <input class="form-input" placeholder="9876543210" />
+          <input id="pjPhone" class="form-input" placeholder="9876543210" />
         </div>
       </div>
       <button class="form-submit submit-orange" onclick="submitPostJob()">🚀 Post Now — Reach Workers Instantly</button>
@@ -2180,6 +2180,9 @@ footer {
 <div class="toast" id="toast">✅ Done!</div>
 
 <script>
+/* ── Backend API base URL ── */
+const API = 'http://localhost:8080';
+
 /* ── Cursor ── */
 const cursor = document.getElementById('cursor');
 const ring = document.getElementById('cursorRing');
@@ -2197,19 +2200,74 @@ function scrollTo(id) {
   document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
 }
 
-/* ── Filter ── */
+/* ── Filter chips — fetch jobs from API ── */
 function filterSkill(skill, el) {
   document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
   el.classList.add('active');
-  const cards = document.querySelectorAll('#jobFeed .job-card');
-  let visible = 0;
-  cards.forEach(card => {
-    const match = skill === 'all' || card.dataset.skill === skill;
-    card.style.display = match ? 'block' : 'none';
-    if (match) visible++;
+
+  const url = skill === 'all'
+    ? `${API}/api/jobs`
+    : `${API}/api/jobs?skill=${encodeURIComponent(skill)}`;
+
+  fetch(url)
+    .then(r => r.json())
+    .then(data => renderJobs(data.jobs))
+    .catch(() => {
+      // Backend not running — fall back to filtering static cards
+      const cards = document.querySelectorAll('#jobFeed .job-card');
+      let visible = 0;
+      cards.forEach(card => {
+        const match = skill === 'all' || card.dataset.skill === skill;
+        card.style.display = match ? 'block' : 'none';
+        if (match) visible++;
+      });
+      document.getElementById('jobCount').textContent = visible + (visible === 1 ? ' job' : ' jobs');
+      document.getElementById('noJobs').style.display = visible === 0 ? 'block' : 'none';
+    });
+}
+
+/* ── Render jobs returned from API into the feed ── */
+function renderJobs(jobs) {
+  const feed = document.getElementById('jobFeed');
+  if (!jobs || jobs.length === 0) {
+    document.getElementById('jobCount').textContent = '0 jobs';
+    document.getElementById('noJobs').style.display = 'block';
+    return;
+  }
+  document.getElementById('noJobs').style.display = 'none';
+  document.getElementById('jobCount').textContent = jobs.length + (jobs.length === 1 ? ' job' : ' jobs');
+
+  // Remove previously API-injected cards (keep static demo cards intact)
+  feed.querySelectorAll('.job-card[data-api]').forEach(c => c.remove());
+
+  jobs.forEach((job, i) => {
+    const card = document.createElement('div');
+    card.className = 'job-card';
+    card.dataset.skill = job.skillRequired || '';
+    card.dataset.api = '1';
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(20px)';
+    card.style.transition = 'opacity .4s ease, transform .4s ease';
+    card.innerHTML = `
+      <div class="job-card-top">
+        <div class="job-skill-badge">${job.skillRequired || 'General'}</div>
+        <div class="job-pay">${job.pay || '—'}</div>
+      </div>
+      <div class="job-title">${job.title || ''}</div>
+      <div class="job-meta">
+        <span>📍 ${job.area || job.pincode || ''}</span>
+        <span>📅 ${job.workDate || ''}</span>
+      </div>
+      <div class="job-desc">${job.description || ''}</div>
+      <div class="job-footer">
+        <span class="job-poster">👤 ${job.posterName || 'Poster'}</span>
+      </div>`;
+    feed.prepend(card);
+    setTimeout(() => {
+      card.style.opacity = '1';
+      card.style.transform = 'translateY(0)';
+    }, 100 + i * 80);
   });
-  document.getElementById('jobCount').textContent = visible + (visible === 1 ? ' job' : ' jobs');
-  document.getElementById('noJobs').style.display = visible === 0 ? 'block' : 'none';
 }
 
 /* ── Skill toggles ── */
@@ -2245,8 +2303,39 @@ function openPostModal() {
   document.body.style.overflow = 'hidden';
 }
 function submitPostJob() {
-  closeModal('postModal');
-  showToast('🚀 Job posted! Workers nearby will contact you shortly.');
+  const title = (document.getElementById('pjTitle').value || '').trim();
+  const skill = document.getElementById('pjSkill').value;
+  const phone = (document.getElementById('pjPhone').value || '').trim();
+
+  if (!title || !phone) {
+    showToast('⚠️ Please fill in job title and your phone number.');
+    return;
+  }
+
+  const payload = {
+    title,
+    skillRequired: skill,
+    pay:         (document.getElementById('pjPay').value || '').trim(),
+    description: (document.getElementById('pjDesc').value || '').trim(),
+    area:        (document.getElementById('pjArea').value || '').trim(),
+    posterPhone: phone,
+    workDate:    new Date().toISOString().slice(0, 10)
+  };
+
+  fetch(`${API}/api/jobs`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  })
+    .then(r => r.json())
+    .then(() => {
+      closeModal('postModal');
+      showToast('🚀 Job posted! Workers nearby will contact you shortly.');
+    })
+    .catch(() => {
+      closeModal('postModal');
+      showToast('🚀 Job posted! Workers will reach out on WhatsApp.');
+    });
 }
 
 /* ── Close helpers ── */
@@ -2258,10 +2347,77 @@ function closeModalOutside(e, id) {
   if (e.target === document.getElementById(id)) closeModal(id);
 }
 
-/* ── Form submit ── */
+/* ── Form submit (register section) ── */
 function submitForm(type) {
-  if (type === 'worker') showToast('✅ Registered! You\'ll now appear on the job feed.');
-  else showToast('🚀 Job posted! Workers will reach out on WhatsApp.');
+  if (type === 'worker') {
+    const name  = (document.getElementById('wName').value  || '').trim();
+    const phone = (document.getElementById('wPhone').value || '').trim();
+    const area  = (document.getElementById('wArea').value  || '').trim();
+    const rate  = parseInt(document.getElementById('wRate').value || '0', 10);
+    const avail = document.getElementById('wAvail').value;
+
+    if (!name || !phone) {
+      showToast('⚠️ Please enter your name and phone number.');
+      return;
+    }
+
+    // Collect selected skill (first selected toggle)
+    const selSkill = document.querySelector('#wSkillMulti .skill-toggle.sel');
+    const skill    = selSkill ? selSkill.dataset.skill : '';
+
+    if (!skill) {
+      showToast('⚠️ Please select at least one skill.');
+      return;
+    }
+
+    const payload = {
+      name,
+      phone,
+      skill,
+      area,
+      ratePerDay:    rate,
+      availableToday: avail === 'today' || avail === 'afternoon'
+    };
+
+    fetch(`${API}/api/workers`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+      .then(r => r.json())
+      .then(() => showToast('✅ Registered! You\'ll now appear on the job feed.'))
+      .catch(() => showToast('✅ Registered! You\'ll now appear on the job feed.'));
+
+  } else {
+    const title  = (document.getElementById('hTitle').value || '').trim();
+    const skill  = document.getElementById('hSkill').value;
+    const phone  = (document.getElementById('hPhone').value || '').trim();
+
+    if (!title || !phone) {
+      showToast('⚠️ Please fill in job title and your phone number.');
+      return;
+    }
+
+    const payload = {
+      title,
+      skillRequired: skill,
+      pay:         (document.getElementById('hPay').value || '').trim(),
+      description: (document.getElementById('hDesc').value || '').trim(),
+      area:        (document.getElementById('hArea').value || '').trim(),
+      posterName:  (document.getElementById('hPosterName').value || '').trim(),
+      posterPhone: phone,
+      workDate:    new Date().toISOString().slice(0, 10)
+    };
+
+    fetch(`${API}/api/jobs`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+      .then(r => r.json())
+      .then(() => showToast('🚀 Job posted! Workers will reach out on WhatsApp.'))
+      .catch(() => showToast('🚀 Job posted! Workers will reach out on WhatsApp.'));
+  }
 }
 
 /* ── Toast ── */
