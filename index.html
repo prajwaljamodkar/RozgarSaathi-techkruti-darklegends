@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- 
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -1369,7 +1369,7 @@ section {
   background: var(--wa);
   border-radius: 50%;
   color: white;
-  font-size: 11px;
+  <!-- font-size: 11px;
   font-weight: 700;
   display: flex;
   align-items: center;
@@ -2079,8 +2079,8 @@ footer {
         <ul class="footer-links">
           <li onclick="openPostModal()">Post a Job Free</li>
           <li onclick="scrollTo('jobs')">Find Workers Nearby</li>
-          <li>Filter by Skill</li>
-          <li>Verified Worker List</li>
+          <li>Filter by Skill</li> -->
+          <!-- <li>Verified Worker List</li>
           <li>Contact via WhatsApp</li>
         </ul>
       </div>
@@ -2426,23 +2426,23 @@ function showToast(msg) {
   t.innerHTML = msg;
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 3500);
-}
+} -->
 
 /* ── OTP button ── */
-document.querySelectorAll('.otp-send-btn').forEach(btn => {
-  btn.addEventListener('click', () => showToast('📱 OTP sent to your Aadhaar-linked mobile!'));
-});
+// document.querySelectorAll('.otp-send-btn').forEach(btn => {
+//   btn.addEventListener('click', () => showToast('📱 OTP sent to your Aadhaar-linked mobile!'));
+// });
 
-/* ── Stagger job cards on load ── */
-document.querySelectorAll('.job-card').forEach((card, i) => {
-  card.style.opacity = '0';
-  card.style.transform = 'translateY(20px)';
-  card.style.transition = 'opacity .4s ease, transform .4s ease';
-  setTimeout(() => {
-    card.style.opacity = '1';
-    card.style.transform = 'translateY(0)';
-  }, 200 + i * 80);
-});
-</script>
-</body>
-</html>
+// /* ── Stagger job cards on load ── */
+// document.querySelectorAll('.job-card').forEach((card, i) => {
+//   card.style.opacity = '0';
+//   card.style.transform = 'translateY(20px)';
+//   card.style.transition = 'opacity .4s ease, transform .4s ease';
+//   setTimeout(() => {
+//     card.style.opacity = '1';
+//     card.style.transform = 'translateY(0)';
+//   }, 200 + i * 80);
+// });
+// </script>
+// </body>
+// </html> -->
